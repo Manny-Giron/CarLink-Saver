@@ -1,13 +1,53 @@
 import { useNavigate } from 'react-router-dom';
-import React from 'react';
-import { useState } from 'react';
-
+import React, { useState } from 'react';
 
 const Login = () => {
     const navigate = useNavigate();
     const [hoveredButton, setHoveredButton] = useState(null); // Track which button is hovered
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [formData, setFormData] = useState({
+        email: '',
+        password: '',
+    });
+    const [err, setError] = useState('');
+    const [message, setMessage] = useState('');
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setError('');
+        try {
+            // Send login info to server
+            const response = await fetch('http://127.0.0.1:8000/api/accounts/login/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData), // Convert formData to JSON
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                // Save refresh / access tokens
+                localStorage.setItem('accessToken', data.access);
+                localStorage.setItem('refreshToken', data.refresh);
+                // Redirect user to dashboard
+                navigate('/dashboard');
+            } else {
+                // Parse json response for error data
+                const errorData = await response.json();
+                setError(errorData.detail || 'Login failed. Please try again.');
+            }
+        } catch (err) {
+            setError('An error occurred. Please try again.');
+        }
+    };
+
+    // Handle input changes
+    const handleChange = (e) => {
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value,
+        });
+    };
 
     // Handlers for hover logic
     const handleMouseEnter = (button) => setHoveredButton(button);
@@ -16,58 +56,61 @@ const Login = () => {
         ...styles.button,
         backgroundColor: hoveredButton === button ? 'rgb(72, 91, 114)' : 'transparent',
         boxShadow: hoveredButton === button ? '0px 2px 15px rgba(0, 0, 0, 0.3)' : 'none',
-    })
-
+    });
 
     return (
         <main style={{ ...styles.main, ...styles.text }}>
             <div className="container" style={styles.container}>
                 <h1 style={styles.title}>Login to Account</h1>
+                {err && <p style={{ color: 'red' }}>{err}</p>}
                 <div style={styles.formBox}>
-                    <form style={styles.formBox}>
+                    <form style={styles.formBox} onSubmit={handleSubmit}>
                         <input
                             style={styles.input}
                             type="email"
+                            name="email"
                             placeholder="Email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
+                            value={formData.email}
+                            onChange={handleChange}
                         />
                         <input
                             style={styles.input}
-                            type='password'
-                            placeholder='Password'
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
+                            type="password"
+                            name="password"
+                            placeholder="Password"
+                            value={formData.password}
+                            onChange={handleChange}
                         />
+                        <button
+                            type="submit"
+                            style={getButtonStyle('login')}
+                            onMouseEnter={() => handleMouseEnter('login')}
+                            onMouseLeave={handleMouseLeave}
+                        >
+                            Log In
+                        </button>
                     </form>
-                    <button
-                        type='submit'
-                        style={getButtonStyle('login')}
-                        onMouseEnter={() => handleMouseEnter('login')}
-                        onMouseLeave={handleMouseLeave}
-                    >
-                        Log In
-                    </button>
+                    {message && <p style={{ color: 'green' }}>{message}</p>}
                     <div
                         style={{
                             color: 'rgb(255,255,255, 0.7)',
-                        }}>
-
+                        }}
+                    >
                         <span>Need an Account?</span>
-                        {/* Upon deplyment, convert to <a> to allow accessibility*/}
                         <span
                             onClick={() => navigate('/register')}
                             style={{
                                 cursor: 'pointer',
                                 color: 'rgb(255,255,255, .9)',
-                            }}> Sign Up</span>
+                            }}
+                        >
+                            Sign Up
+                        </span>
                     </div>
                 </div>
             </div>
         </main>
-
     );
-
 };
 
 const styles = {
@@ -90,7 +133,6 @@ const styles = {
         justifyContent: 'center',
         height: '100vh',
         background: 'rgb(26, 39, 67)',
-        // background: 'linear-gradient(to bottom right, rgb(113, 0, 165), rgb(239, 137, 255))',
     },
     title: {
         color: 'white',
@@ -99,8 +141,8 @@ const styles = {
     },
     formBox: {
         display: 'flex',
-        flexDirection: 'column', // Arrange inputs vertically
-        gap: '1rem',            // Space between inputs
+        flexDirection: 'column',
+        gap: '1rem',
     },
     input: {
         color: 'white',
@@ -110,7 +152,6 @@ const styles = {
         border: '2px solid black',
         borderRadius: '0.5rem',
     },
-
     button: {
         padding: '0.75rem 1.5rem',
         fontSize: '1rem',
@@ -120,8 +161,6 @@ const styles = {
         color: 'white',
         transition: 'background-color 0.3s ease',
     },
-
 };
-
 
 export default Login;
