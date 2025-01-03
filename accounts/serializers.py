@@ -1,7 +1,33 @@
-from rest_framework import serializers
 from django.contrib.auth.models import User
+from rest_framework import serializers
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from rest_framework.exceptions import AuthenticationFailed
+
+class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
+    """
+    Serializer for email-based login using Simple JWT.
+    Maps email to username internally for authentication.
+    """
+    def validate(self, attrs):
+        # Replace "username" with "email" for login
+        email = attrs.get("username")  # The frontend will send "email" as "username"
+        password = attrs.get("password")
+
+        try:
+            # Retrieve the user by email
+            user = User.objects.get(email=email)
+            attrs["username"] = user.username  # Map email to username for authentication
+        except User.DoesNotExist:
+            raise AuthenticationFailed("Invalid email or password.")
+
+        return super().validate(attrs)
+
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
+    """
+    Serializer for user registration.
+    Accepts name and email, uses email as the username.
+    """
     # Name will be collected instead of username
     name = serializers.CharField(required=True, write_only=True)
     password = serializers.CharField(write_only=True, required=True)
@@ -10,36 +36,30 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         model = User
         fields = ['name', 'email', 'password']
 
-    #check if account / email already exists with a user
     def validate_email(self, value):
+        """
+        Ensure email is unique.
+        """
         if User.objects.filter(email=value).exists():
             raise serializers.ValidationError("An account with this email already exists.")
         return value
 
     def create(self, validated_data):
+        """
+        Create a new user with email as username and store their name.
+        """
         name = validated_data.pop('name')
         email = validated_data.get('email')
         password = validated_data.get('password')
 
-        """ To prefent dupe username from similar email prefixes, 
-        combine both prefix & name to make a more unique username for django"""
-        email_prefix = email.split('@')[0]
-        username = f"{email_prefix}_{name}".replace(" ", "_")  # Replace spaces with underscores
-
-        # Incase username still is a dupe from another account, add a counter.
-        base_username = username
-        counter = 1
-        while User.objects.filter(username=username).exists():
-            username = f"{base_username}_{counter}"
-            counter += 1
-
+        # Create user with email as username
         user = User.objects.create_user(
-            username=username,
+            username=email,
             email=email,
             password=password
         )
 
-        # Save their name (assuming its their first name) to django's user first_name field
+        # Save their name (assuming its their first name) to first_name
         user.first_name = name
         user.save()
 
