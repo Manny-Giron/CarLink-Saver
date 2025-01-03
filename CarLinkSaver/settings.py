@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 import os
+from datetime import timedelta
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -32,6 +33,26 @@ TEMPLATES = [
         },
     },
 ]
+
+# JSON Web Token Authentication \\//
+
+# DRF uses JWT for Auth
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+}
+# Settings for JWT
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30),  # Tokens valid for 30 minutes
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),    # Refresh tokens valid for 7 days
+    'ROTATE_REFRESH_TOKENS': True,                 # Rotate refresh tokens 
+    'BLACKLIST_AFTER_ROTATION': True,              # Blacklist old refresh tokens (Invalidate)
+    'AUTH_HEADER_TYPES': ('Bearer',),               # Token prefix for Authorization header
+
+}
+# JSON Web Token Authentication //\\
+
 
 
 STATICFILES_DIRS = [
@@ -66,6 +87,8 @@ INSTALLED_APPS = [
     "carLinks",
     "accounts",
     'rest_framework',
+    'rest_framework_simplejwt.token_blacklist', 
+
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
