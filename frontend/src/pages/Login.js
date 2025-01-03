@@ -5,7 +5,7 @@ const Login = () => {
     const navigate = useNavigate();
     const [hoveredButton, setHoveredButton] = useState(null); // Track which button is hovered
     const [formData, setFormData] = useState({
-        email: '',
+        username: '',
         password: '',
     });
     const [err, setError] = useState('');
@@ -26,11 +26,15 @@ const Login = () => {
 
             if (response.ok) {
                 const data = await response.json();
+                setMessage(data.detail || "Login successful, redirecting to dashboard.");
                 // Save refresh / access tokens
                 localStorage.setItem('accessToken', data.access);
                 localStorage.setItem('refreshToken', data.refresh);
                 // Redirect user to dashboard
-                navigate('/dashboard');
+                // Delay before navigating to the login page
+                setTimeout(() => {
+                    navigate('/dashboard');
+                }, 1000); // 1 second delay
             } else {
                 // Parse json response for error data
                 const errorData = await response.json();
@@ -68,9 +72,9 @@ const Login = () => {
                         <input
                             style={styles.input}
                             type="email"
-                            name="email"
+                            name="username"
                             placeholder="Email"
-                            value={formData.email}
+                            value={formData.username}
                             onChange={handleChange}
                         />
                         <input
