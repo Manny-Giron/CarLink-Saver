@@ -165,3 +165,30 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'DEBUG',
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': 'INFO',  # Change to 'DEBUG' for more detailed output
+            'propagate': True,
+        },
+        'CarLinkSaver': {
+            'handlers': ['console'],
+            'level': 'DEBUG',  # Logs debug information for your app
+            'propagate': False,
+        },
+    },
+}
