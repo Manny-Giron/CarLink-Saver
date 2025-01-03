@@ -41,6 +41,11 @@ STATICFILES_DIRS = [
 STATIC_URL = '/static/'
 
 
+CORS_ALLOW_CREDENTIALS = True
+CSRF_COOKIE_HTTPONLY = False
+CSRF_TRUSTED_ORIGINS = [
+    "http://127.0.0.1:3000",  # React frontend URL
+]
 
 
 # Quick-start development settings - unsuitable for production
@@ -59,6 +64,8 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     "carLinks",
+    "accounts",
+    'rest_framework',
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",

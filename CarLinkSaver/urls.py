@@ -23,6 +23,8 @@ from django.urls import path, include, re_path
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    #API endpoints for accounts
+    path('api/accounts/', include('accounts.urls')),
     # path('api/', include('carLinks.urls')),  # API routes
     re_path(r'^.*$', serve_react),    # Match all other paths and serve React
 ]
