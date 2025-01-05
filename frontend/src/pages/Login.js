@@ -58,7 +58,8 @@ const Login = () => {
     const handleMouseLeave = () => setHoveredButton(null);
     const getButtonStyle = (button) => ({
         ...styles.button,
-        backgroundColor: hoveredButton === button ? 'rgb(72, 91, 114)' : 'transparent',
+        backgroundColor: hoveredButton === button ? 'black' : 'white',
+        color: hoveredButton === button ? 'white' : 'black',
         boxShadow: hoveredButton === button ? '0px 2px 15px rgba(0, 0, 0, 0.3)' : 'none',
     });
 
@@ -100,7 +101,7 @@ const Login = () => {
                             color: 'rgb(255,255,255, 0.7)',
                         }}
                     >
-                        <span>Need an Account?</span>
+                        <span>Need an Account? </span>
                         <span
                             onClick={() => navigate('/register')}
                             style={{
@@ -163,7 +164,7 @@ const styles = {
         borderRadius: '0.5rem',
         border: '2px solid black',
         color: 'white',
-        transition: 'background-color 0.3s ease',
+        transition: '0.4s ease',
     },
 };
 

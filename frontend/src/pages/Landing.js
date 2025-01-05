@@ -11,7 +11,8 @@ const Landing = () => {
 
     const getButtonStyle = (button) => ({
         ...styles.button,
-        backgroundColor: hoveredButton === button ? 'rgb(72, 91, 114)' : 'transparent',
+        backgroundColor: hoveredButton === button ? 'rgb(0, 0, 0)' : 'rgb(255, 255, 255)',
+        color: hoveredButton === button ? 'white' : 'black',
         boxShadow: hoveredButton === button ? '0px 2px 15px rgba(0, 0, 0, 0.3)' : 'none',
     });
 
@@ -79,8 +80,8 @@ const styles = {
         cursor: 'pointer',
         borderRadius: '0.5rem',
         border: '2px solid black',
-        color: 'white',
-        transition: 'background-color 0.3s ease',
+
+        transition: '0.4s ease',
     },
 };
 
