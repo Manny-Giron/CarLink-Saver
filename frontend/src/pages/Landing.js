@@ -13,12 +13,12 @@ const Landing = () => {
         ...styles.button,
         backgroundColor: hoveredButton === button ? 'rgb(0, 0, 0)' : 'rgb(255, 255, 255)',
         color: hoveredButton === button ? 'white' : 'black',
-        boxShadow: hoveredButton === button ? '0px 2px 15px rgba(0, 0, 0, 0.3)' : 'none',
+        boxShadow: hoveredButton === button ? '0px 3px 10px rgba(0, 0, 0, 0.9)' : 'none',
     });
 
     return (
         <main style={styles.main}>
-            <div className="container" style={styles.box}>
+            <div className="container">
                 <h1 style={{ ...styles.title, ...styles.text }}>Welcome to CarLinkSaver</h1>
                 <div style={styles.buttonContainer}>
                     <button
@@ -62,14 +62,19 @@ const styles = {
         // background: 'linear-gradient(to bottom right, rgb(113, 0, 165), rgb(239, 137, 255))',
     },
     title: {
+        display: 'flex',
         color: 'white',
         fontSize: '2rem',
-        marginBottom: '15vh',
+        marginBottom: '10vh',
+        padding: '5vh',
+        textAlign: 'center',
+        textShadow: '-2px 4px 2px black',
     },
     buttonContainer: {
         display: 'flex',
         gap: '1rem',
         justifyContent: 'center',
+        padding: '2vh',
     },
     button: {
         fontFamily: '"Space Mono", serif',
@@ -79,9 +84,8 @@ const styles = {
         fontSize: '1rem',
         cursor: 'pointer',
         borderRadius: '0.5rem',
-        border: '2px solid black',
-
-        transition: '0.4s ease',
+        border: '2px solid transparent',
+        transition: '0.25s ease',
     },
 };
 

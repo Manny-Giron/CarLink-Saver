@@ -20,8 +20,9 @@ const Register = () => {
 
     const getButtonStyle = (button) => ({
         ...styles.button,
-        backgroundColor: hoveredButton === button ? 'rgb(72, 91, 114)' : 'transparent',
-        boxShadow: hoveredButton === button ? '0px 2px 15px rgba(0, 0, 0, 0.3)' : 'none',
+        backgroundColor: hoveredButton === button ? 'black' : 'white',
+        color: hoveredButton === button ? 'white' : 'black',
+        boxShadow: hoveredButton === button ? '0px 2px 15px rgba(0, 0, 0, 0.9)' : 'none',
     });
 
     // Handle input changes
@@ -142,8 +143,8 @@ const Register = () => {
 const styles = {
     container: {
         width: '30vw',
-        border: '2px solid black',
-        borderRadius: '1vw',
+        border: '2px solid transparent',
+        borderRadius: '0.5vw',
         padding: '2rem',
         backgroundColor: 'rgb(151, 212, 255, 0.1)',
     },
@@ -163,6 +164,7 @@ const styles = {
         color: 'white',
         marginBottom: '2rem',
         fontWeight: 400,
+        textAlign: 'center',
     },
     formBox: {
         display: 'flex',
@@ -175,7 +177,7 @@ const styles = {
         fontSize: '1rem',
         backgroundColor: 'rgb(0,0,0)',
         border: '2px solid black',
-        borderRadius: '0.5rem',
+        borderRadius: '0.25rem',
     },
     button: {
         fontFamily: '"Space Mono", serif',
@@ -184,8 +186,8 @@ const styles = {
         padding: '0.75rem 1.5rem',
         fontSize: '1rem',
         cursor: 'pointer',
-        borderRadius: '0.5rem',
-        border: '2px solid black',
+        borderRadius: '0.25rem',
+        border: '2px solid transparent',
         color: 'white',
         transition: 'background-color 0.3s ease',
     },
