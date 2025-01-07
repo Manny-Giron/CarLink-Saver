@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
+import '../components/buttonStyling.css';
 
 const Register = () => {
     const navigate = useNavigate();
@@ -112,6 +113,7 @@ const Register = () => {
                             onChange={handleChange}
                         />
                         <button
+                            className='Button'
                             type="submit"
                             style={getButtonStyle('register')}
                             onMouseEnter={() => handleMouseEnter('register')}
@@ -178,18 +180,6 @@ const styles = {
         backgroundColor: 'rgb(0,0,0)',
         border: '2px solid black',
         borderRadius: '0.25rem',
-    },
-    button: {
-        fontFamily: '"Space Mono", serif',
-        fontWeight: 400,
-        fontStyle: 'normal',
-        padding: '0.75rem 1.5rem',
-        fontSize: '1rem',
-        cursor: 'pointer',
-        borderRadius: '0.25rem',
-        border: '2px solid transparent',
-        color: 'white',
-        transition: 'background-color 0.3s ease',
     },
 };
 

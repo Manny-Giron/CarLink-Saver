@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import React, { useState } from 'react';
+import '../components/buttonStyling.css';
 
 const Login = () => {
     const navigate = useNavigate();
@@ -87,6 +88,7 @@ const Login = () => {
                             onChange={handleChange}
                         />
                         <button
+                            className='Button'
                             type="submit"
                             style={getButtonStyle('login')}
                             onMouseEnter={() => handleMouseEnter('login')}
@@ -157,15 +159,6 @@ const styles = {
         backgroundColor: 'rgb(0,0,0)',
         border: '2px solid black',
         borderRadius: '0.25rem',
-    },
-    button: {
-        padding: '0.75rem 1.5rem',
-        fontSize: '1rem',
-        cursor: 'pointer',
-        borderRadius: '0.25rem',
-        border: '2px solid transparent',
-        color: 'white',
-        transition: '0.3s ease',
     },
 };
 

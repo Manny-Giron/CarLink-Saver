@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import '../components/buttonStyling.css';
 
 const Landing = () => {
     const navigate = useNavigate();
@@ -22,6 +23,7 @@ const Landing = () => {
                 <h1 style={{ ...styles.title, ...styles.text }}>Welcome to CarLinkSaver</h1>
                 <div style={styles.buttonContainer}>
                     <button
+                        className='Button'
                         style={getButtonStyle('login')}
                         onMouseEnter={() => handleMouseEnter('login')}
                         onMouseLeave={handleMouseLeave}
@@ -30,6 +32,7 @@ const Landing = () => {
                         Log In
                     </button>
                     <button
+                        className='Button'
                         style={getButtonStyle('register')}
                         onMouseEnter={() => handleMouseEnter('register')}
                         onMouseLeave={handleMouseLeave}
@@ -75,17 +78,6 @@ const styles = {
         gap: '1rem',
         justifyContent: 'center',
         padding: '2vh',
-    },
-    button: {
-        fontFamily: '"Space Mono", serif',
-        fontWeight: 400,
-        fontStyle: 'normal',
-        padding: '0.75rem 1.5rem',
-        fontSize: '1rem',
-        cursor: 'pointer',
-        borderRadius: '0.5rem',
-        border: '2px solid transparent',
-        transition: '0.25s ease',
     },
 };
 
